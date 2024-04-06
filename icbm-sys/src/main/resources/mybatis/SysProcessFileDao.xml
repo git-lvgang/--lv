@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysProcessFileDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysProcessFile">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="PROCESS_ID" jdbcType="VARCHAR" property="processId" />
+    <result column="HANDLER_NODE" jdbcType="VARCHAR" property="handlerNode" />
+    <result column="HANDLER" jdbcType="VARCHAR" property="handler" />
+    <result column="HANDLER_ID" jdbcType="INTEGER" property="handlerId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="FILE_LIST" jdbcType="VARCHAR" property="fileList" />
+    <result column="HANDLER_NAME" jdbcType="VARCHAR" property="handlerName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PROCESS_ID, HANDLER_NODE, `HANDLER`, HANDLER_ID, CREATE_TIME, FILE_LIST, HANDLER_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_process_file
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_process_file
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessFile" useGeneratedKeys="true">
+    insert into sys_process_file (PROCESS_ID, HANDLER_NODE, `HANDLER`, 
+      HANDLER_ID, CREATE_TIME, FILE_LIST, 
+      HANDLER_NAME)
+    values (#{processId,jdbcType=VARCHAR}, #{handlerNode,jdbcType=VARCHAR}, #{handler,jdbcType=VARCHAR}, 
+      #{handlerId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{fileList,jdbcType=VARCHAR}, 
+      #{handlerName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessFile" useGeneratedKeys="true">
+    insert into sys_process_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="processId != null">
+        PROCESS_ID,
+      </if>
+      <if test="handlerNode != null">
+        HANDLER_NODE,
+      </if>
+      <if test="handler != null">
+        `HANDLER`,
+      </if>
+      <if test="handlerId != null">
+        HANDLER_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="fileList != null">
+        FILE_LIST,
+      </if>
+      <if test="handlerName != null">
+        HANDLER_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="processId != null">
+        #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerNode != null">
+        #{handlerNode,jdbcType=VARCHAR},
+      </if>
+      <if test="handler != null">
+        #{handler,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerId != null">
+        #{handlerId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileList != null">
+        #{fileList,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerName != null">
+        #{handlerName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessFile">
+    update sys_process_file
+    <set>
+      <if test="processId != null">
+        PROCESS_ID = #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerNode != null">
+        HANDLER_NODE = #{handlerNode,jdbcType=VARCHAR},
+      </if>
+      <if test="handler != null">
+        `HANDLER` = #{handler,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerId != null">
+        HANDLER_ID = #{handlerId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileList != null">
+        FILE_LIST = #{fileList,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerName != null">
+        HANDLER_NAME = #{handlerName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessFile">
+    update sys_process_file
+    set PROCESS_ID = #{processId,jdbcType=VARCHAR},
+      HANDLER_NODE = #{handlerNode,jdbcType=VARCHAR},
+      `HANDLER` = #{handler,jdbcType=VARCHAR},
+      HANDLER_ID = #{handlerId,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      FILE_LIST = #{fileList,jdbcType=VARCHAR},
+      HANDLER_NAME = #{handlerName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByProcessId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_process_file
+    where PROCESS_ID = #{processId,jdbcType=VARCHAR}
+  </select>
+</mapper>

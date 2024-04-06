@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysFileInfoDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysFileInfo">
+    <id column="FIlE_ID" jdbcType="VARCHAR" property="fileId" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="PREVIEW_FILE_ID" jdbcType="VARCHAR" property="previewFileId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="IS_DELETE" jdbcType="CHAR" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FIlE_ID, FILE_NAME, PREVIEW_FILE_ID, USER_ID, CREATE_TIME, UPDATE_TIME, IS_DELETE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file_info
+    where FIlE_ID = #{fileId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_file_info
+    where FIlE_ID = #{fileId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.essence.icbm.sys.bean.po.SysFileInfo">
+    insert into sys_file_info (FIlE_ID, FILE_NAME, PREVIEW_FILE_ID, 
+      USER_ID, CREATE_TIME, UPDATE_TIME, 
+      IS_DELETE)
+    values (#{fileId,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{previewFileId,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysFileInfo">
+    insert into sys_file_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fileId != null">
+        FIlE_ID,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="previewFileId != null">
+        PREVIEW_FILE_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fileId != null">
+        #{fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="previewFileId != null">
+        #{previewFileId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysFileInfo">
+    update sys_file_info
+    <set>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="previewFileId != null">
+        PREVIEW_FILE_ID = #{previewFileId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=CHAR},
+      </if>
+    </set>
+    where FIlE_ID = #{fileId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysFileInfo">
+    update sys_file_info
+    set FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      PREVIEW_FILE_ID = #{previewFileId,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_DELETE = #{isDelete,jdbcType=CHAR}
+    where FIlE_ID = #{fileId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectFiles" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_file_info
+    where IS_DELETE='0'
+    <if test="fileIds != null and fileIds.size > 0">
+      and FIlE_ID in
+      <foreach collection="fileIds" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="selectFileList"  resultType="com.alibaba.fastjson.JSONObject">
+    select FILE_LIST from irs_external_report
+    where 1=1
+    <if test="reportIds != null and reportIds.size > 0">
+       and REPORT_ID in
+       <foreach collection="reportIds" item="item" open="(" separator="," close=")">
+         #{item}
+       </foreach>
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysSearchIdxDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysSearchIdx">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="INDEX_NAME" jdbcType="VARCHAR" property="indexName" />
+    <result column="INDEX_PINGYIN" jdbcType="VARCHAR" property="indexPingyin" />
+    <result column="INDEX_KEY" jdbcType="VARCHAR" property="indexKey" />
+    <result column="INDEX_TYPE" jdbcType="CHAR" property="indexType" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="IS_DELETED" jdbcType="CHAR" property="isDeleted" />
+    <result column="INDEX_DETAIL" jdbcType="VARCHAR" property="indexDetail" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, INDEX_NAME, INDEX_PINGYIN, INDEX_KEY, INDEX_TYPE, CREATE_TIME, UPDATE_TIME, IS_DELETED, 
+    INDEX_DETAIL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_search_idx
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_search_idx
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cn.com.essence.icbm.sys.bean.po.SysSearchIdx" useGeneratedKeys="true">
+    insert into sys_search_idx (INDEX_NAME, INDEX_PINGYIN, INDEX_KEY, 
+      INDEX_TYPE, CREATE_TIME, UPDATE_TIME, 
+      IS_DELETED, INDEX_DETAIL)
+    values (#{indexName,jdbcType=VARCHAR}, #{indexPingyin,jdbcType=VARCHAR}, #{indexKey,jdbcType=VARCHAR}, 
+      #{indexType,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=CHAR}, #{indexDetail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cn.com.essence.icbm.sys.bean.po.SysSearchIdx" useGeneratedKeys="true">
+    insert into sys_search_idx
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="indexName != null">
+        INDEX_NAME,
+      </if>
+      <if test="indexPingyin != null">
+        INDEX_PINGYIN,
+      </if>
+      <if test="indexKey != null">
+        INDEX_KEY,
+      </if>
+      <if test="indexType != null">
+        INDEX_TYPE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="indexDetail != null">
+        INDEX_DETAIL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="indexName != null">
+        #{indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="indexPingyin != null">
+        #{indexPingyin,jdbcType=VARCHAR},
+      </if>
+      <if test="indexKey != null">
+        #{indexKey,jdbcType=VARCHAR},
+      </if>
+      <if test="indexType != null">
+        #{indexType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="indexDetail != null">
+        #{indexDetail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysSearchIdx">
+    update sys_search_idx
+    <set>
+      <if test="indexName != null">
+        INDEX_NAME = #{indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="indexPingyin != null">
+        INDEX_PINGYIN = #{indexPingyin,jdbcType=VARCHAR},
+      </if>
+      <if test="indexKey != null">
+        INDEX_KEY = #{indexKey,jdbcType=VARCHAR},
+      </if>
+      <if test="indexType != null">
+        INDEX_TYPE = #{indexType,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="indexDetail != null">
+        INDEX_DETAIL = #{indexDetail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysSearchIdx">
+    update sys_search_idx
+    set INDEX_NAME = #{indexName,jdbcType=VARCHAR},
+      INDEX_PINGYIN = #{indexPingyin,jdbcType=VARCHAR},
+      INDEX_KEY = #{indexKey,jdbcType=VARCHAR},
+      INDEX_TYPE = #{indexType,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      INDEX_DETAIL = #{indexDetail,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_search_idx a
+    where a.IS_DELETED = '0'
+    <if test="type != null and type != ''">
+      and a.INDEX_TYPE=#{type,jdbcType=VARCHAR}
+    </if>
+    <if test="name != null and name != ''">
+      and (a.INDEX_NAME like CONCAT('%',#{name},'%') or a.INDEX_PINGYIN like CONCAT('%',#{name},'%'))
+    </if>
+    limit 0, #{limitNum}
+  </select>
+
+  <select id="findByType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_search_idx a
+    <if test="type != null and type != ''">
+      where a.INDEX_TYPE=#{type,jdbcType=VARCHAR}
+    </if>
+    order by a.INDEX_KEY limit #{pos}, #{limitNum}
+  </select>
+
+  <select id="queryIndexName" parameterType="java.lang.String" resultType="java.lang.String">
+    select INDEX_NAME from sys_search_idx where INDEX_KEY=#{name}
+  </select>
+</mapper>

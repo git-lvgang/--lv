@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.PlcFundBaseDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.PlcFundBase">
+    <id column="FUND_ID" jdbcType="INTEGER" property="fundId" />
+    <result column="ASSM_BUSI_TYPE" jdbcType="VARCHAR" property="assmBusiType" />
+    <result column="SALE_CODE" jdbcType="VARCHAR" property="saleCode" />
+    <result column="FUND_CODE" jdbcType="VARCHAR" property="fundCode" />
+    <result column="FUND_NUM" jdbcType="VARCHAR" property="fundNum" />
+    <result column="FUND_FULLNAME" jdbcType="VARCHAR" property="fundFullname" />
+    <result column="FUND_NAME" jdbcType="VARCHAR" property="fundName" />
+    <result column="FUND_TYPE" jdbcType="VARCHAR" property="fundType" />
+    <result column="STRA_TYPE" jdbcType="VARCHAR" property="straType" />
+    <result column="MANG_TYPE" jdbcType="VARCHAR" property="mangType" />
+    <result column="FUND_OPERATION" jdbcType="VARCHAR" property="fundOperation" />
+    <result column="FUND_OPERATION_OTHER" jdbcType="VARCHAR" property="fundOperationOther" />
+    <result column="FUND_RISK_GRADE" jdbcType="VARCHAR" property="fundRiskGrade" />
+    <result column="AGMT_TYPE" jdbcType="VARCHAR" property="agmtType" />
+    <result column="REGISTER_DATE" jdbcType="DATE" property="registerDate" />
+    <result column="RECORD_SUCC_DATE" jdbcType="DATE" property="recordSuccDate" />
+    <result column="MATU_DATE" jdbcType="DATE" property="matuDate" />
+    <result column="END_DATE" jdbcType="DATE" property="endDate" />
+    <result column="DURATION" jdbcType="INTEGER" property="duration" />
+    <result column="REGISTER_ORG" jdbcType="VARCHAR" property="registerOrg" />
+    <result column="CLEA_MODE" jdbcType="VARCHAR" property="cleaMode" />
+    <result column="SALE_MODE" jdbcType="VARCHAR" property="saleMode" />
+    <result column="IS_FOFMOM_FUND" jdbcType="VARCHAR" property="isFofmomFund" />
+    <result column="FUND_STRUCTURE" jdbcType="VARCHAR" property="fundStructure" />
+    <result column="LEV_MODE" jdbcType="VARCHAR" property="levMode" />
+    <result column="LEV_STD_DESC" jdbcType="VARCHAR" property="levStdDesc" />
+    <result column="FUND_LEVER" jdbcType="DECIMAL" property="fundLever" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="MANAGER_ID" jdbcType="VARCHAR" property="managerId" />
+    <result column="MANAGER_DESC" jdbcType="VARCHAR" property="managerDesc" />
+    <result column="OPEATOR" jdbcType="VARCHAR" property="opeator" />
+    <result column="OPDATE_TIME" jdbcType="TIMESTAMP" property="opdateTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FUND_ID, ASSM_BUSI_TYPE, SALE_CODE, FUND_CODE, FUND_NUM, FUND_FULLNAME, FUND_NAME, 
+    FUND_TYPE, STRA_TYPE, MANG_TYPE, FUND_OPERATION, FUND_OPERATION_OTHER, FUND_RISK_GRADE, 
+    AGMT_TYPE, REGISTER_DATE, RECORD_SUCC_DATE, MATU_DATE, END_DATE, DURATION, REGISTER_ORG, 
+    CLEA_MODE, SALE_MODE, IS_FOFMOM_FUND, FUND_STRUCTURE, LEV_MODE, LEV_STD_DESC, FUND_LEVER, 
+    REMARK, MANAGER_ID, MANAGER_DESC, OPEATOR, OPDATE_TIME, CREATOR, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from plc_fund_base
+    where FUND_ID = #{fundId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from plc_fund_base
+    where FUND_ID = #{fundId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="FUND_ID" keyProperty="fundId" parameterType="cn.com.essence.icbm.sys.bean.po.PlcFundBase" useGeneratedKeys="true">
+    insert into plc_fund_base (ASSM_BUSI_TYPE, SALE_CODE, FUND_CODE, 
+      FUND_NUM, FUND_FULLNAME, FUND_NAME, 
+      FUND_TYPE, STRA_TYPE, MANG_TYPE, 
+      FUND_OPERATION, FUND_OPERATION_OTHER, FUND_RISK_GRADE, 
+      AGMT_TYPE, REGISTER_DATE, RECORD_SUCC_DATE, 
+      MATU_DATE, END_DATE, DURATION, 
+      REGISTER_ORG, CLEA_MODE, SALE_MODE, 
+      IS_FOFMOM_FUND, FUND_STRUCTURE, LEV_MODE, 
+      LEV_STD_DESC, FUND_LEVER, REMARK, 
+      MANAGER_ID, MANAGER_DESC, OPEATOR, 
+      OPDATE_TIME, CREATOR, CREATE_TIME
+      )
+    values (#{assmBusiType,jdbcType=VARCHAR}, #{saleCode,jdbcType=VARCHAR}, #{fundCode,jdbcType=VARCHAR}, 
+      #{fundNum,jdbcType=VARCHAR}, #{fundFullname,jdbcType=VARCHAR}, #{fundName,jdbcType=VARCHAR}, 
+      #{fundType,jdbcType=VARCHAR}, #{straType,jdbcType=VARCHAR}, #{mangType,jdbcType=VARCHAR}, 
+      #{fundOperation,jdbcType=VARCHAR}, #{fundOperationOther,jdbcType=VARCHAR}, #{fundRiskGrade,jdbcType=VARCHAR}, 
+      #{agmtType,jdbcType=VARCHAR}, #{registerDate,jdbcType=DATE}, #{recordSuccDate,jdbcType=DATE}, 
+      #{matuDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{duration,jdbcType=INTEGER}, 
+      #{registerOrg,jdbcType=VARCHAR}, #{cleaMode,jdbcType=VARCHAR}, #{saleMode,jdbcType=VARCHAR}, 
+      #{isFofmomFund,jdbcType=VARCHAR}, #{fundStructure,jdbcType=VARCHAR}, #{levMode,jdbcType=VARCHAR}, 
+      #{levStdDesc,jdbcType=VARCHAR}, #{fundLever,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{managerId,jdbcType=VARCHAR}, #{managerDesc,jdbcType=VARCHAR}, #{opeator,jdbcType=VARCHAR}, 
+      #{opdateTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="FUND_ID" keyProperty="fundId" parameterType="cn.com.essence.icbm.sys.bean.po.PlcFundBase" useGeneratedKeys="true">
+    insert into plc_fund_base
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="assmBusiType != null">
+        ASSM_BUSI_TYPE,
+      </if>
+      <if test="saleCode != null">
+        SALE_CODE,
+      </if>
+      <if test="fundCode != null">
+        FUND_CODE,
+      </if>
+      <if test="fundNum != null">
+        FUND_NUM,
+      </if>
+      <if test="fundFullname != null">
+        FUND_FULLNAME,
+      </if>
+      <if test="fundName != null">
+        FUND_NAME,
+      </if>
+      <if test="fundType != null">
+        FUND_TYPE,
+      </if>
+      <if test="straType != null">
+        STRA_TYPE,
+      </if>
+      <if test="mangType != null">
+        MANG_TYPE,
+      </if>
+      <if test="fundOperation != null">
+        FUND_OPERATION,
+      </if>
+      <if test="fundOperationOther != null">
+        FUND_OPERATION_OTHER,
+      </if>
+      <if test="fundRiskGrade != null">
+        FUND_RISK_GRADE,
+      </if>
+      <if test="agmtType != null">
+        AGMT_TYPE,
+      </if>
+      <if test="registerDate != null">
+        REGISTER_DATE,
+      </if>
+      <if test="recordSuccDate != null">
+        RECORD_SUCC_DATE,
+      </if>
+      <if test="matuDate != null">
+        MATU_DATE,
+      </if>
+      <if test="endDate != null">
+        END_DATE,
+      </if>
+      <if test="duration != null">
+        DURATION,
+      </if>
+      <if test="registerOrg != null">
+        REGISTER_ORG,
+      </if>
+      <if test="cleaMode != null">
+        CLEA_MODE,
+      </if>
+      <if test="saleMode != null">
+        SALE_MODE,
+      </if>
+      <if test="isFofmomFund != null">
+        IS_FOFMOM_FUND,
+      </if>
+      <if test="fundStructure != null">
+        FUND_STRUCTURE,
+      </if>
+      <if test="levMode != null">
+        LEV_MODE,
+      </if>
+      <if test="levStdDesc != null">
+        LEV_STD_DESC,
+      </if>
+      <if test="fundLever != null">
+        FUND_LEVER,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="managerId != null">
+        MANAGER_ID,
+      </if>
+      <if test="managerDesc != null">
+        MANAGER_DESC,
+      </if>
+      <if test="opeator != null">
+        OPEATOR,
+      </if>
+      <if test="opdateTime != null">
+        OPDATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="assmBusiType != null">
+        #{assmBusiType,jdbcType=VARCHAR},
+      </if>
+      <if test="saleCode != null">
+        #{saleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundCode != null">
+        #{fundCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundNum != null">
+        #{fundNum,jdbcType=VARCHAR},
+      </if>
+      <if test="fundFullname != null">
+        #{fundFullname,jdbcType=VARCHAR},
+      </if>
+      <if test="fundName != null">
+        #{fundName,jdbcType=VARCHAR},
+      </if>
+      <if test="fundType != null">
+        #{fundType,jdbcType=VARCHAR},
+      </if>
+      <if test="straType != null">
+        #{straType,jdbcType=VARCHAR},
+      </if>
+      <if test="mangType != null">
+        #{mangType,jdbcType=VARCHAR},
+      </if>
+      <if test="fundOperation != null">
+        #{fundOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="fundOperationOther != null">
+        #{fundOperationOther,jdbcType=VARCHAR},
+      </if>
+      <if test="fundRiskGrade != null">
+        #{fundRiskGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="agmtType != null">
+        #{agmtType,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        #{registerDate,jdbcType=DATE},
+      </if>
+      <if test="recordSuccDate != null">
+        #{recordSuccDate,jdbcType=DATE},
+      </if>
+      <if test="matuDate != null">
+        #{matuDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="registerOrg != null">
+        #{registerOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="cleaMode != null">
+        #{cleaMode,jdbcType=VARCHAR},
+      </if>
+      <if test="saleMode != null">
+        #{saleMode,jdbcType=VARCHAR},
+      </if>
+      <if test="isFofmomFund != null">
+        #{isFofmomFund,jdbcType=VARCHAR},
+      </if>
+      <if test="fundStructure != null">
+        #{fundStructure,jdbcType=VARCHAR},
+      </if>
+      <if test="levMode != null">
+        #{levMode,jdbcType=VARCHAR},
+      </if>
+      <if test="levStdDesc != null">
+        #{levStdDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fundLever != null">
+        #{fundLever,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerDesc != null">
+        #{managerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="opeator != null">
+        #{opeator,jdbcType=VARCHAR},
+      </if>
+      <if test="opdateTime != null">
+        #{opdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.PlcFundBase">
+    update plc_fund_base
+    <set>
+      <if test="assmBusiType != null">
+        ASSM_BUSI_TYPE = #{assmBusiType,jdbcType=VARCHAR},
+      </if>
+      <if test="saleCode != null">
+        SALE_CODE = #{saleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundCode != null">
+        FUND_CODE = #{fundCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundNum != null">
+        FUND_NUM = #{fundNum,jdbcType=VARCHAR},
+      </if>
+      <if test="fundFullname != null">
+        FUND_FULLNAME = #{fundFullname,jdbcType=VARCHAR},
+      </if>
+      <if test="fundName != null">
+        FUND_NAME = #{fundName,jdbcType=VARCHAR},
+      </if>
+      <if test="fundType != null">
+        FUND_TYPE = #{fundType,jdbcType=VARCHAR},
+      </if>
+      <if test="straType != null">
+        STRA_TYPE = #{straType,jdbcType=VARCHAR},
+      </if>
+      <if test="mangType != null">
+        MANG_TYPE = #{mangType,jdbcType=VARCHAR},
+      </if>
+      <if test="fundOperation != null">
+        FUND_OPERATION = #{fundOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="fundOperationOther != null">
+        FUND_OPERATION_OTHER = #{fundOperationOther,jdbcType=VARCHAR},
+      </if>
+      <if test="fundRiskGrade != null">
+        FUND_RISK_GRADE = #{fundRiskGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="agmtType != null">
+        AGMT_TYPE = #{agmtType,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        REGISTER_DATE = #{registerDate,jdbcType=DATE},
+      </if>
+      <if test="recordSuccDate != null">
+        RECORD_SUCC_DATE = #{recordSuccDate,jdbcType=DATE},
+      </if>
+      <if test="matuDate != null">
+        MATU_DATE = #{matuDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        END_DATE = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="duration != null">
+        DURATION = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="registerOrg != null">
+        REGISTER_ORG = #{registerOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="cleaMode != null">
+        CLEA_MODE = #{cleaMode,jdbcType=VARCHAR},
+      </if>
+      <if test="saleMode != null">
+        SALE_MODE = #{saleMode,jdbcType=VARCHAR},
+      </if>
+      <if test="isFofmomFund != null">
+        IS_FOFMOM_FUND = #{isFofmomFund,jdbcType=VARCHAR},
+      </if>
+      <if test="fundStructure != null">
+        FUND_STRUCTURE = #{fundStructure,jdbcType=VARCHAR},
+      </if>
+      <if test="levMode != null">
+        LEV_MODE = #{levMode,jdbcType=VARCHAR},
+      </if>
+      <if test="levStdDesc != null">
+        LEV_STD_DESC = #{levStdDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fundLever != null">
+        FUND_LEVER = #{fundLever,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null">
+        MANAGER_ID = #{managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerDesc != null">
+        MANAGER_DESC = #{managerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="opeator != null">
+        OPEATOR = #{opeator,jdbcType=VARCHAR},
+      </if>
+      <if test="opdateTime != null">
+        OPDATE_TIME = #{opdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where FUND_ID = #{fundId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.PlcFundBase">
+    update plc_fund_base
+    set ASSM_BUSI_TYPE = #{assmBusiType,jdbcType=VARCHAR},
+      SALE_CODE = #{saleCode,jdbcType=VARCHAR},
+      FUND_CODE = #{fundCode,jdbcType=VARCHAR},
+      FUND_NUM = #{fundNum,jdbcType=VARCHAR},
+      FUND_FULLNAME = #{fundFullname,jdbcType=VARCHAR},
+      FUND_NAME = #{fundName,jdbcType=VARCHAR},
+      FUND_TYPE = #{fundType,jdbcType=VARCHAR},
+      STRA_TYPE = #{straType,jdbcType=VARCHAR},
+      MANG_TYPE = #{mangType,jdbcType=VARCHAR},
+      FUND_OPERATION = #{fundOperation,jdbcType=VARCHAR},
+      FUND_OPERATION_OTHER = #{fundOperationOther,jdbcType=VARCHAR},
+      FUND_RISK_GRADE = #{fundRiskGrade,jdbcType=VARCHAR},
+      AGMT_TYPE = #{agmtType,jdbcType=VARCHAR},
+      REGISTER_DATE = #{registerDate,jdbcType=DATE},
+      RECORD_SUCC_DATE = #{recordSuccDate,jdbcType=DATE},
+      MATU_DATE = #{matuDate,jdbcType=DATE},
+      END_DATE = #{endDate,jdbcType=DATE},
+      DURATION = #{duration,jdbcType=INTEGER},
+      REGISTER_ORG = #{registerOrg,jdbcType=VARCHAR},
+      CLEA_MODE = #{cleaMode,jdbcType=VARCHAR},
+      SALE_MODE = #{saleMode,jdbcType=VARCHAR},
+      IS_FOFMOM_FUND = #{isFofmomFund,jdbcType=VARCHAR},
+      FUND_STRUCTURE = #{fundStructure,jdbcType=VARCHAR},
+      LEV_MODE = #{levMode,jdbcType=VARCHAR},
+      LEV_STD_DESC = #{levStdDesc,jdbcType=VARCHAR},
+      FUND_LEVER = #{fundLever,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      MANAGER_ID = #{managerId,jdbcType=VARCHAR},
+      MANAGER_DESC = #{managerDesc,jdbcType=VARCHAR},
+      OPEATOR = #{opeator,jdbcType=VARCHAR},
+      OPDATE_TIME = #{opdateTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where FUND_ID = #{fundId,jdbcType=INTEGER}
+  </update>
+
+  <select id="findFunds" resultMap="BaseResultMap" parameterType="list">
+    select a.FUND_ID, a.SALE_CODE, a.FUND_FULLNAME
+    from plc_fund_base a
+    <if test="list != null and list.size > 0">
+      where a.FUND_ID in
+      <foreach collection="list" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    order by a.FUND_ID
+  </select>
+
+  <select id="findFullNameNotEmptyFunds" resultMap="BaseResultMap">
+    select a.FUND_ID, a.FUND_FULLNAME, a.SALE_CODE
+    from plc_fund_base a where a.FUND_FULLNAME is not null and a.FUND_FULLNAME != ''
+    order by a.FUND_ID limit #{pos}, #{limitNum}
+  </select>
+
+  <select id="findSaleCodeNotEmptyFunds" resultMap="BaseResultMap">
+    select a.FUND_ID, a.SALE_CODE, a.FUND_NAME
+    from plc_fund_base a where a.SALE_CODE is not null and a.SALE_CODE != ''
+    order by a.FUND_ID limit #{pos}, #{limitNum}
+  </select>
+
+</mapper>

@@ -1,0 +1,161 @@
+spring:
+  application:
+    name: icbm-sys
+  redis:
+    database: 0
+    host: 10.5.5.66
+    port: 6379
+    password: Icbm!@#1234
+    #    sentinel:
+    #      master: mymaster
+    #      nodes: 10.5.2.147:6382,10.5.2.147:6383,10.5.2.147:6384
+    timeout: 5000s
+  datasource:
+    username: root
+    password: Icbm#202104ts1
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.5.96.140:3306/ICBM?useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+server:
+  port: 8070
+  servlet:
+    context-path: /icbm/sys
+management:
+  server:
+    port: 9090  # 管理端口和应用端口分开，生产环境在反向代理时不对外开放管理接口，直接被互联网访问的接口应做认证授权控制增强安全性。
+  endpoints:
+    web:
+      exposure:
+        include: 'prometheus'
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+#springfox:
+#  documentation:
+#    swagger-ui:
+#      #【swagger-ui】的根路径。
+#      # 完整的URL 如下：
+#      # http://{IP:Port}/{server.servlet.context-path}/{springfox.documentation.swagger-ui.base-url}/swagger-ui/index.html
+#      base-url: /api
+#      is:
+#        enable: true
+
+#app.id: 'ambs00001'
+#apollo.meta: 'http://10.2.99.29:8080'
+#apollo.bootstrap.enabled: true
+#apollo.bootstrap.namespaces: application.yml
+
+essence:
+  wefa:
+    shiro:
+      replay: true
+      authc: false
+      filter-chain:
+        "[/**/trigger]": anon
+        "[/**/sys/property/find/public]": anon
+        "[/**/checkcode]": anon
+        "[/**/timestamp]": anon
+        "[/**/login]": anon
+        "[/**/login/cas]": anon
+        "[/**/rsa]": anon
+        "[/**/api/**]": anon
+        "[/**/api-docs]": anon
+        "[/**/doc.html]": anon
+        "[/**/swagger-ui/**]": anon
+        "[/**/swagger-resources/**]": anon
+        "[/**/webjars/**]": anon
+        "[/**/email/upload]": anon
+        "[/**/mix/dict/item/batch/**]": anon
+        "[/**/mix/dict/item/**]": anon
+        "[/**/file/**]": anon
+        "[/**/instance]": anon
+        "[/**/mix/sysLogs/query/**]": anon
+        "[/**/mix/query/dict/item/**]": anon
+        "[/**/template/{templateId}/instance]": anon
+        "[/**]": statelessAuthc2
+    cas:
+      server-name: ${spring.application.name}
+      cas-server-url-prefix: https://iam-sit.axzq.com.cn/cas
+      ticket-validation-url-prefix: ${essence.cas.cas-server-url-prefix}
+    iam:
+      clientId: aaabbbccc
+      secert: f7074a2e205e48fc80eff2be76065894
+      accountServer: https://iam-sit.axzq.com.cn/account
+  ambs:
+    basic:
+      # 预览服务的ip
+      preview-server-url-prefix: http://10.2.64.82
+      preview-server-app-id: 20003
+      store-access-key: guoyf
+      store-secret-key: guoyf
+      store-server-url: http://10.2.240.105:8080
+      store-name: ambs-basic
+      upload-file-max-size: 1048576
+      process-server-base-url: https://bpm-sit.axzq.com.cn/openapi/sys-lbpm/
+      # authorization为base64码，对应的明文是“账号:密码”，uat账号为：icbm_dev，密码为：!Qazxsw23edc
+      process-label: icbm-sit
+      process-authorization: aWNibV9kZXY6IVFhenhzdzIzZWRj
+
+      mail:
+        server: mail.essence.com.cn
+        username: axty@essence.com.cn
+        password: axty20210315
+
+
+retrofit:
+  #  全局转换器工厂
+  #  retrofit-spring-boot-starter支持通过retrofit.global-converter-factories配置全局数据转换器工厂，
+  #  转换器工厂实例优先从Spring容器获取，如果没有获取到，则反射创建。
+  #  默认的全局数据转换器工厂是retrofit2.converter.jackson.JacksonConverterFactory，
+  #  你可以直接通过spring.jackson.*配置jackson序列化规则，配置可参考Customize the Jackson ObjectMapper！
+  global-converter-factories:
+    - retrofit2.converter.jackson.JacksonConverterFactory
+  # 全局调用适配器工厂
+  global-call-adapter-factories:
+    - com.github.lianjiatech.retrofit.spring.boot.core.BodyCallAdapterFactory
+    - com.github.lianjiatech.retrofit.spring.boot.core.ResponseCallAdapterFactory
+  # 熔断降级配置
+  degrade:
+    # 是否启用熔断降级
+    enable: true
+    # 熔断降级实现方式
+    degrade-type: sentinel
+    # 熔断资源名称解析器
+    resource-name-parser: com.github.lianjiatech.retrofit.spring.boot.degrade.DefaultResourceNameParser
+  # 重试配置
+  retry:
+    # 是否启用全局重试  2.2.5 新增
+    enable-global-retry: true
+    # 全局重试间隔时间  2.2.5 新增
+    global-interval-ms: 20
+    # 全局最大重试次数  2.2.5 新增
+    global-max-retries: 5
+    # 全局重试规则    2.2.5 新增
+    global-retry-rules:
+      - response_status_not_2xx
+    # 重试拦截器
+    retry-interceptor: com.github.lianjiatech.retrofit.spring.boot.retry.DefaultRetryInterceptor
+  # 日志打印配置
+  log:
+    # 启用日志打印
+    enable: true
+    # 日志打印拦截器
+    logging-interceptor: com.github.lianjiatech.retrofit.spring.boot.interceptor.DefaultLoggingInterceptor
+  # 连接池配置
+  #    默认情况下，所有通过Retrofit发送的http请求都会使用max-idle-connections=5 keep-alive-second=300的默认连接池。
+  #    当然，我们也可以在配置文件中配置多个自定义的连接池，然后通过
+  #    @RetrofitClient的poolName属性来指定使用。比如我们要让某个接口下的请求全部使用poolName=test1的连接池，
+  pool:
+    test1:
+      max-idle-connections: 3
+      keep-alive-second: 100
+    test2:
+      max-idle-connections: 5
+      keep-alive-second: 50
+
+max:
+  fileSize: 50

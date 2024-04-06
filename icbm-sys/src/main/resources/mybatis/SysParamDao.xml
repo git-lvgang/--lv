@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysParamDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysParam">
+    <result column="PARAM_CODE" jdbcType="VARCHAR" property="paramCode" />
+    <result column="PARAM_NAME" jdbcType="VARCHAR" property="paramName" />
+    <result column="MAINTAIN_FLAG" jdbcType="CHAR" property="maintainFlag" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+    <resultMap id="ItemsResultMap" type="cn.com.essence.icbm.sys.bean.po.SysParamItems">
+        <result column="PARAM_CODE" jdbcType="VARCHAR" property="paramCode" />
+        <result column="PARAM_ITEM_ID" jdbcType="INTEGER" property="paramItemId" />
+        <result column="PARAM_ITEM" jdbcType="CHAR" property="paramItem" />
+        <result column="PARAM_ITEM_NAME" jdbcType="VARCHAR" property="paramItemName" />
+    </resultMap>
+
+    <select id="findSysParamPage" resultMap="BaseResultMap" parameterType="cn.com.essence.icbm.sys.bean.po.SysParam">
+          SELECT PARAM_CODE,PARAM_NAME,MAINTAIN_FLAG,REMARK FROM SYS_PARAM WHERE 1=1
+          <if test="paramCode != null and paramCode != ''">
+            AND PARAM_CODE = #{paramCode}
+          </if>
+          <if test="paramName != null and paramName != ''">
+             AND PARAM_NAME like CONCAT('%', #{paramName}, '%')
+          </if>
+          <if test="maintainFlag != null and maintainFlag != ''">
+              AND MAINTAIN_FLAG = #{maintainFlag}
+          </if>
+      </select>
+
+    <insert id="addSysParam"  parameterType="cn.com.essence.icbm.sys.bean.po.SysParam">
+        INSERT INTO SYS_PARAM (PARAM_CODE, PARAM_NAME, MAINTAIN_FLAG,REMARK
+        )
+        VALUES (
+          #{paramCode,jdbcType=VARCHAR},#{paramName,jdbcType=VARCHAR},#{maintainFlag,jdbcType=CHAR},#{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateSysParam" parameterType="cn.com.essence.icbm.sys.bean.po.SysParam">
+        UPDATE SYS_PARAM SET PARAM_NAME=#{paramName},REMARK = #{remark} WHERE PARAM_CODE = #{paramCode}
+    </update>
+
+    <delete id="deleteSysParam" parameterType="java.lang.String">
+        DELETE FROM SYS_PARAM  WHERE PARAM_CODE = #{paramCode,jdbcType=VARCHAR}
+    </delete>
+
+
+    <select id="findSysParamItems" resultMap="ItemsResultMap" parameterType="cn.com.essence.icbm.sys.bean.po.SysParamItems">
+        SELECT PARAM_ITEM_ID,PARAM_CODE,PARAM_ITEM,PARAM_ITEM_NAME FROM SYS_PARAM_ITEMS WHERE PARAM_CODE = #{paramCode,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteSysParamItems" parameterType="java.lang.String">
+        DELETE FROM SYS_PARAM_ITEMS  WHERE PARAM_ITEM_ID = #{paramItemId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateSysParamItems" parameterType="cn.com.essence.icbm.sys.bean.po.SysParamItems">
+        UPDATE SYS_PARAM_ITEMS SET PARAM_ITEM=#{paramItem} WHERE PARAM_CODE = #{paramCode}
+    </update>
+
+    <insert id="addSysParamItems"  parameterType="cn.com.essence.icbm.sys.bean.po.SysParamItems">
+        INSERT INTO SYS_PARAM_ITEMS (PARAM_CODE, PARAM_ITEM, PARAM_ITEM_NAME)
+        VALUES (#{paramCode,jdbcType=VARCHAR},#{paramItem,jdbcType=CHAR},#{paramItemName,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>

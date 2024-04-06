@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.mix.MixSysProcessTemplateDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.mix.MixSysProcessTemplate">
+    <id column="TEMPLATE_ID" jdbcType="VARCHAR" property="templateId" />
+    <result column="TEMPLATE_NAME" jdbcType="VARCHAR" property="templateName" />
+    <result column="VIEW_PATH" jdbcType="VARCHAR" property="viewPath" />
+    <result column="EDIT_PATH" jdbcType="VARCHAR" property="editPath" />
+    <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="MODIFICATION_NODE" jdbcType="VARCHAR" property="modificationNode" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TEMPLATE_ID, TEMPLATE_NAME, VIEW_PATH, EDIT_PATH, `DESCRIBE`, REMARK, CREATE_TIME, 
+    UPDATE_TIME, MODIFICATION_NODE, `STATUS`
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_process_template a
+  </select>
+</mapper>

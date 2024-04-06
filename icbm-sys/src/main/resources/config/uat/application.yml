@@ -1,0 +1,8 @@
+# Apollo配置
+app:
+  id: 'icbmsys00001'
+apollo:
+  meta: 'http://10.2.99.27:8080'
+  bootstrap:
+    enabled: true
+    namespaces: application.yml

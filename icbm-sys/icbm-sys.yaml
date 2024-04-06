@@ -1,0 +1,89 @@
+project:
+  id: icbm-sys
+#安全扫描的相关配置
+#如果不涉及安全扫描，联系研发管理平台人员将安全扫描关闭之后，此配置可全部删除
+#security_scan_config:
+#  #需扫描系统的访问入口
+#  awvsscan_address: https://static.essence.com.cn/guide/position-cost-line.html
+#  #系统名称标识
+#  awvsscan_description: 手机证券交易服务中台测试
+
+#sonar扫描模块配置信息,sonar_module为模块，sonar_sub_module为子模块
+#如果没有子模块，可以不填sonar_sub_module
+#如果系统为单模块，此配置可全部删除
+#sonar_module: trade-base,trade-core,trade-server,trade-query
+#sonar_sub_module:
+#  [ { name: trade-service, value: trade-service-account;trade-service-bank},
+#    { name: trade-strategy, value: trade-strategy-service}
+#  ]
+
+#如果单模块且部署类型是jar或者war包，则无需填写，此配置可全部删除
+#如果是单模块项目且部署包类型不是jar或者war包，而是zip，tar.gz等其他类型，配置举例： [{ name: tifa1,type: zip}]，其中name为代码仓库名称
+#如果是多模块项目且部署包类型不是jar或者war包，而是zip，tar.gz等其他类型，配置举例： [{ model_name: tifa1,type: zip},{ model_name: tifa2,type: zip}]
+#deploy:
+#  [
+#  { model_name: trade-query},
+#  { model_name: trade-server}
+#  ]
+
+#流水线构建成功，构建失败，上传手工测试报告邮件通知人
+#如果需要主送直接配置邮件名（例如：op_zhoujun）,如果需要抄送配置（例如：cc:op_zhoujun）
+build_email:
+  build_success_member: likd1
+  build_fail_member: likd1
+  #设置上传手工测试报告邮件通知人
+  upload_report_member: likd1
+
+#api自动化测试配置，path执行计划路径；name执行计划名称
+#安全自动化也读取此配置
+#如果没有api自动化测试此配置可全部删除
+#api_info:
+#  dev: [{ path: 手机证券交易服务中台/交易服务中台/2.7.1, name: 手机证券交易服务中台v2.7.1接口测试_dev, successRate: 0.9}]
+#  sit: [{ path: 手机证券交易服务中台/交易服务中台/2.7.1, name: 手机证券交易服务中台v2.7.1接口测试_sit, successRate: 0.9}]
+#  uat: [{ path: 手机证券交易服务中台/交易服务中台/2.7.1, name: 手机证券交易服务中台v2.7.1接口测试_uat, successRate: 0.9}]
+
+#jmeter性能测试。需建一个jmeter仓库，存放jmeter脚本
+#如果没有jmeter性能测试，此配置可全部删除
+#jmeter_info: [{ name: strategy.jmx}]
+#jmeter_project_url: http://scm.essence.com.cn/performance-test/trade-strategy.git
+#jmeter_project_branch: V1.0.0
+
+#推送问题到jira所需参数，按系统实际情况填写
+#project_name对应Jira项目名称，panel对应jira项目看板
+#debt_type，assemblyline_type无需更改
+project_jiraIssue:
+  project_name: 投资业务管理平台项目
+  project_key: ICBM
+  panel: 投资业务管理平台
+  debt_type: 技术债务
+  assemblyline_type: DevOps失败
+
+#ui自动化测试配置，path执行计划路径；name执行计划名称。
+#如果没有api自动化测试，此配置可全部删除
+#ui_info:
+#  dev: [{path: 手机证券交易服务中台/交易服务中台/2.7.1, name: 手机证券交易服务中台v2.7.1交易准入测试, successRate: 0}]
+#  sit: [{path: 手机证券交易服务中台/交易服务中台/2.7.1, name: 手机证券交易服务中台v2.7.1交易准入测试, successRate: 0}]
+#  uat: [{path: 手机证券交易服务中台/交易服务中台/2.7.1, name: 手机证券交易服务中台v2.7.1交易准入测试, successRate: 0}]
+
+#ansible部署配置，与K8S部署配置只能选择一种
+#目前强制检查dev，sit，uat三套环境，dev,sit,uat填写的值需与ansible文件夹下各个环境host文件名称一致
+#deploy_environment:
+#  dev: [host-dev]
+#  sit: [host-sit]
+#  uat: [host-uat]
+
+
+#K8S部署配置，其中nameSpace为命名空间
+deploy_environment:
+  dev:
+    [
+      {moduleName: "icbm-sys", nameSpace: "icbm-dev", ip: "10.2.60.154", swServices: "10.2.25.31:11800,10.2.25.32:11800,10.2.25.33:11800"}
+    ]
+  sit:
+    [
+      {moduleName: "icbm-sys", nameSpace: "icbm-sit", ip: "10.2.60.155", swServices: "10.2.25.31:11800,10.2.25.32:11800,10.2.25.33:11800"}
+    ]
+  uat:
+    [
+      {moduleName: "icbm-sys", nameSpace: "icbm-uat", ip: "10.2.60.156,10.2.60.163", swServices: "10.2.111.128:11800,10.2.111.129:11800,10.2.111.130:11800"}
+    ]

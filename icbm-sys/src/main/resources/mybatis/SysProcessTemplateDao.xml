@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysProcessTemplateDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysProcessTemplate">
+    <id column="TEMPLATE_ID" jdbcType="VARCHAR" property="templateId" />
+    <result column="TEMPLATE_NAME" jdbcType="VARCHAR" property="templateName" />
+    <result column="VIEW_PATH" jdbcType="VARCHAR" property="viewPath" />
+    <result column="EDIT_PATH" jdbcType="VARCHAR" property="editPath" />
+    <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="MODIFICATION_NODE" jdbcType="VARCHAR" property="modificationNode" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TEMPLATE_ID, TEMPLATE_NAME, VIEW_PATH, EDIT_PATH, `DESCRIBE`, REMARK, CREATE_TIME, 
+    UPDATE_TIME, MODIFICATION_NODE, `STATUS`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_process_template
+    where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_process_template
+    where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessTemplate">
+    insert into sys_process_template (TEMPLATE_ID, TEMPLATE_NAME, VIEW_PATH, 
+      EDIT_PATH, `DESCRIBE`, REMARK, 
+      CREATE_TIME, UPDATE_TIME, MODIFICATION_NODE, 
+      `STATUS`)
+    values (#{templateId,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, #{viewPath,jdbcType=VARCHAR}, 
+      #{editPath,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{modificationNode,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessTemplate">
+    insert into sys_process_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="templateId != null">
+        TEMPLATE_ID,
+      </if>
+      <if test="templateName != null">
+        TEMPLATE_NAME,
+      </if>
+      <if test="viewPath != null">
+        VIEW_PATH,
+      </if>
+      <if test="editPath != null">
+        EDIT_PATH,
+      </if>
+      <if test="describe != null">
+        `DESCRIBE`,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="modificationNode != null">
+        MODIFICATION_NODE,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="templateId != null">
+        #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null">
+        #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="viewPath != null">
+        #{viewPath,jdbcType=VARCHAR},
+      </if>
+      <if test="editPath != null">
+        #{editPath,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modificationNode != null">
+        #{modificationNode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessTemplate">
+    update sys_process_template
+    <set>
+      <if test="templateName != null">
+        TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="viewPath != null">
+        VIEW_PATH = #{viewPath,jdbcType=VARCHAR},
+      </if>
+      <if test="editPath != null">
+        EDIT_PATH = #{editPath,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        `DESCRIBE` = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modificationNode != null">
+        MODIFICATION_NODE = #{modificationNode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `STATUS` = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessTemplate">
+    update sys_process_template
+    set TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
+      VIEW_PATH = #{viewPath,jdbcType=VARCHAR},
+      EDIT_PATH = #{editPath,jdbcType=VARCHAR},
+      `DESCRIBE` = #{describe,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      MODIFICATION_NODE = #{modificationNode,jdbcType=VARCHAR},
+      `STATUS` = #{status,jdbcType=CHAR}
+    where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
+  </update>
+  <select id="findPage" resultMap="BaseResultMap" parameterType="Pager">
+    select
+    <include refid="Base_Column_List" />
+    from sys_process_template a
+    where a.STATUS!='0'
+    order by a.CREATE_TIME desc
+
+  </select>
+
+  <select id="findPageCount" parameterType="Pager" resultType="int">
+    select count(a.TEMPLATE_ID) from sys_process_template a
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_process_template a
+  </select>
+  <select id="queryTemplateName" resultType="java.lang.String" >
+     select TEMPLATE_NAME from sys_process_template where TEMPLATE_ID=#{id}
+  </select>
+
+  <select id="selectProcesTemplates" resultMap="BaseResultMap" parameterType="Pager">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_process_template where 1=1
+    <if test="params.templIds != null">
+        and TEMPLATE_ID in 
+      <foreach collection="params.templIds" item="item" open="(" close= ")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+  <select id="updateSecuritiesStatus">
+      update irs_securities_pool set STATUS=#{status} where SECU_INTL=#{secuIntl};
+  </select>
+</mapper>

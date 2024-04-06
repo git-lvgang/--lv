@@ -1,0 +1,8 @@
+# Apollo配置
+app:
+  id: 'S36900001'
+apollo:
+  meta: 'http://10.0.37.174:8080,http://10.0.37.175:8080,http://10.0.37.176:8080'
+  bootstrap:
+    enabled: true
+    namespaces: application.yml

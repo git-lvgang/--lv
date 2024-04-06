@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.2</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>cn.com.essence</groupId>
+	<artifactId>icbm-sys</artifactId>
+	<version>1.1.0-SNAPSHOT</version>
+	<name>icbm-sys</name>
+	<description>资管业务管理系统基础应用</description>
+
+	<properties>
+		<BUILD_NUMBER>0</BUILD_NUMBER>
+		<java.version>1.8</java.version>
+		<wefa.version>1.0.0-SNAPSHOT</wefa.version>
+		<fastjson.version>1.2.73</fastjson.version>
+		<spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+
+		<!-- image build -->
+		<container.from>registry.essence.com.cn/ecs/java:8</container.from>
+<!--		<container.from>repo.essence.com.cn/docker/openjdk:8-jre-alpine-tcnative</container.from>-->
+		<!--        habor docker-->
+		<!--		<container.to>registry.essence.com.cn/ambs/${project.artifactId}:${project.version}</container.to>-->
+		<!--		AF-docker-->
+		<!--		<container.to>repo.essence.com.cn/${afRepoName}/${project.artifactId}:${dockerVersion}</container.to>-->
+		<container.to>repo.essence.com.cn/${afRepoName}/${project.artifactId}:${dockerVersion}</container.to>
+		<!-- image build internal var -->
+		<container.username>robot$ambs</container.username>
+		<container.password>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDg1MzM3NTEsImlzcyI6ImhhcmJvci10b2tlbi1kZWZhdWx0SXNzdWVyIiwiaWQiOjQwODcwMiwicGlkIjo0NzQ4LCJhY2Nlc3MiOlt7IlJlc291cmNlIjoiL3Byb2plY3QvNDc0OC9yZXBvc2l0b3J5IiwiQWN0aW9uIjoicHVzaCIsIkVmZmVjdCI6IiJ9LHsiUmVzb3VyY2UiOiIvcHJvamVjdC80NzQ4L2hlbG0tY2hhcnQiLCJBY3Rpb24iOiJyZWFkIiwiRWZmZWN0IjoiIn0seyJSZXNvdXJjZSI6Ii9wcm9qZWN0LzQ3NDgvaGVsbS1jaGFydC12ZXJzaW9uIiwiQWN0aW9uIjoiY3JlYXRlIiwiRWZmZWN0IjoiIn1dfQ.oH8LNtM0YrSPqYkyh5YWoqIMAtruGwRxUp8Sj728neBbKA8UYwTE1NgsaqA_7N00PETu6F58F-pb9sf8ulp5M4ybeyH3LK8brxkScbnCKABBHFP5irFWf_ehTiPIvIlTPqv8_SMP7qGVSoKFagwEJjgXUaS1Y8lNW5M30iaik0Dau_Tyy_xfSSt8x_As88xOdDaB7cIIrDAxdpBgTFi-4hVy3WHXR4nxvOZCcDbg1QtHdMiVXOhRlodyMjWN2Mn0BcBidxCqcyNhdLpeqAKBicvUu9piH6kU-zHjvMCVrDOrvPXbCevA60P9Q7YjanrUBocu8R3AYhLNLV1FcBGSVgljtIoIkYP76nmbx81ARylhmsOU8gAtfQgkUXAjv4JHWKRbse2q-7hLvUQNnX_gxosQ6nmkAijFUAA6HNaEMVuO2LzuJRxYbpgIShV2KdLC34rD_rADdJA9VEQBs_KWHbpU6g73JK8BbbtjBl6m2pKOg0tfZYhfhUixDB7pXjJHnks5jM_Zj6VaPVJyEUA9o5BXlUXsTjlFFcilZ2-fyYA5Qlgza9z7YBmxvq1wjISMCAHd_gUEjWuJkPFneeoG5BypgzL7mZhIXnZagYohmHC8MkXEKpstTcRBHMe_9_w4tquM1tsaKsJgMEkmRpHKI1e1zSB7MXZUQAHfiiumHH4</container.password>
+		<container.home>/app</container.home>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>icbm-maven-releases</id>
+			<name>icbm-maven-releases</name>
+			<url>https://repo.essence.com.cn/artifactory/icbm-maven-release</url>
+		</repository>
+		<snapshotRepository>
+			<id>icbm-maven-snapshots</id>
+			<name>icbm-maven-snapshots</name>
+			<url>https://repo.essence.com.cn/artifactory/icbm-maven-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<repositories>
+        <repository>
+            <id>essence</id>
+            <name>icbm Maven Repository</name>
+            <!-- release仓库地址 -->
+            <url>https://repo.essence.com.cn/artifactory/icbm-maven-release/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        
+        <repository>
+            <id>essence-snapshot</id>
+            <name>icbm Maven Repository</name>
+            <!-- snapshot仓库地址 -->
+            <url>https://repo.essence.com.cn/artifactory/icbm-maven-snapshot/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+	<dependencies>
+<!--		<dependency>-->
+<!--			<groupId>org.mybatis.spring.boot</groupId>-->
+<!--			<artifactId>mybatis-spring-boot-starter</artifactId>-->
+<!--            <version>2.1.4</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ctrip.framework.apollo</groupId>
+			<artifactId>apollo-client</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+
+		<!-- wefa 引入 -->
+		<dependency>
+			<groupId>cn.com.essence.wefa</groupId>
+			<artifactId>wefa-spring-boot-starter</artifactId>
+			<version>${wefa.version}</version>
+		</dependency>
+		<!-- redis test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>it.ozimov</groupId>
+			<artifactId>embedded-redis</artifactId>
+			<version>0.7.1</version>
+            <scope>test</scope>
+		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>com.oracle</groupId>-->
+<!--			<artifactId>ojdbc8</artifactId>-->
+<!--			<version>12.2.0.1</version>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.skywalking</groupId>
+			<artifactId>apm-toolkit-logback-1.x</artifactId>
+			<version>6.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.16</version>
+		</dependency>
+		<!-- H2DataBase的依赖 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.197</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- @MybatisTest的依赖 -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter-test</artifactId>
+			<version>2.1.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- 导出word模板的依赖 -->
+		<dependency>
+			<groupId>com.deepoove</groupId>
+			<artifactId>poi-tl</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
+		<dependency>
+			<groupId>com.belerweb</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.com.essence.wefa</groupId>
+			<artifactId>wefa-utils</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nl.jqno.equalsverifier</groupId>
+			<artifactId>equalsverifier</artifactId>
+			<version>3.5.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.com.essence.wefa</groupId>
+			<artifactId>wefa-store</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.lianjiatech</groupId>
+			<artifactId>retrofit-spring-boot-starter</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+
+
+		<!--引入http client工具 -->
+		<dependency>
+			<groupId>com.github.lianjiatech</groupId>
+			<artifactId>retrofit-spring-boot-starter</artifactId>
+			<!--          <version>2.2.3</version>-->
+			<!--2.2.5版本变化比较大，尤其配置文件，请注意查看配置说明-->
+			<version>2.2.5</version>
+		</dependency>
+
+
+		<!--普通降级，请启用该maven坐标，请请求接口上加入@Dgrade注解-->
+		<dependency>
+			<groupId>com.alibaba.csp</groupId>
+			<artifactId>sentinel-core</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.com.essence.wefa</groupId>
+			<artifactId>wefa-iam</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- https://github.com/lukas-krecan/ShedLock -->
+		<dependency>
+			<groupId>net.javacrumbs.shedlock</groupId>
+			<artifactId>shedlock-spring</artifactId>
+			<version>4.22.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.javacrumbs.shedlock</groupId>
+			<artifactId>shedlock-provider-jdbc-template</artifactId>
+			<version>4.22.1</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>5.7.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>knife4j-spring-boot-starter</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>config/**</exclude>
+						<exclude>application.yml</exclude>
+						<exclude>logback-spring.xml</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/assembly/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!---如果test依赖的输入文件有中文，并且test处理中有依赖，mvn test会失败，可以打开以下
+			以下注释，流水线上默认已经加了-Dfile.encoding=UTF-8,提交代码不要提交，会影响sonar的检查-->
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-surefire-plugin</artifactId>-->
+<!--				<version>2.19.1</version>-->
+<!--				<configuration>-->
+<!--					<forkMode>once</forkMode>-->
+<!--					<argLine>-Dfile.encoding=UTF-8</argLine>&lt;!&ndash; 解决从json中读取测试数据时的中文乱码问题 &ndash;&gt;-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>2.4.0</version>
+				<configuration>
+					<from>
+						<image>${container.from}</image>
+					</from>
+					<to>
+						<image>${container.to}</image>
+						<auth>
+							<username>${af_username}</username>
+							<password>${af_password}</password>
+						</auth>
+					</to>
+					<!--容器相关的属性 -->
+					<container>
+						<!-- 文件在容器的路径 -->
+						<appRoot>${container.home}</appRoot>
+						<!-- 默认使用UAT配置 -->
+						<environment>
+							<PROFILES>dev</PROFILES>
+							<START_CLASS>cn.com.essence.icbm.sys.BasicApplication</START_CLASS>
+							<CONTAINER_HOME>${container.home}</CONTAINER_HOME>
+							<SKYWALKING_ENABLED>true</SKYWALKING_ENABLED>
+							<APP_NAME>${project.name}</APP_NAME>
+							<JAVA_OPTS>-server -XX:InitialRAMPercentage=30.0 -XX:MaxRAMPercentage=60.0
+								-XX:+HeapDumpOnOutOfMemoryError
+								-XX:HeapDumpPath=${container.home}/logs/dump.hprof</JAVA_OPTS>
+						</environment>
+						<entrypoint>
+							<arg>/bin/sh</arg>
+							<arg>-c</arg>
+							<arg>${container.home}/bin/entrypoint.sh</arg>
+						</entrypoint>
+						<!--要暴露的端口 -->
+						<ports>
+							<port>8080</port>
+							<port>8088</port>
+							<port>9080</port>
+						</ports>
+						<!--使用该参数将镜像的创建时间为当前系统时间 -->
+						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+					</container>
+					<!-- 其他需要打包到镜像里面的文件 -->
+					<extraDirectories>
+						<paths>
+							<path>
+								<from>bin</from>
+								<into>${container.home}/bin</into>
+							</path>
+							<path>
+								<from>src/main/resources/config</from>
+								<into>${container.home}/config</into>
+							</path>
+						</paths>
+						<permissions>
+							<permission>
+								<file>${container.home}/bin/*.sh</file>
+								<mode>755</mode>
+							</permission>
+						</permissions>
+					</extraDirectories>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+
+		</plugins>
+<!--		<resources>-->
+<!--			<resource>-->
+<!--				<directory>src/main/resources</directory>-->
+<!--				<includes>-->
+<!--					<include>**/*.xml</include>-->
+<!--					<include>**/*.sql</include>-->
+<!--				</includes>-->
+<!--			</resource>-->
+<!--		</resources>-->
+		<!--单元测试时引用src/main/resources下的资源文件-->
+<!--		<testResources>-->
+<!--			<testResource>-->
+<!--				<directory>src/test/resources</directory>-->
+<!--			</testResource>-->
+<!--			<testResource>-->
+<!--				<directory>src/main/resources</directory>-->
+<!--			</testResource>-->
+<!--		</testResources>-->
+	</build>
+
+</project>

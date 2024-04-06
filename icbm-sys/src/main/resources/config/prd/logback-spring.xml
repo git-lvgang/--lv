@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <property name="log_dir" value="logs" />
+    <property name="app_name" value="basic" />
+
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_dir}/${app_name}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/${app_name}.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!-- 按天归档, 最多保存60天日志。如果日志量较大，可修改fileNamePattern后缀为%d{yyyy-MM-dd_HH}.log.gz按小时归档 -->
+            <MaxHistory>60</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%tid] [%thread] [%X{RequestId}] %-5level %logger{36} -%msg%n</Pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%tid] [%thread] [%X{RequestId}] %-5level %logger{36} -%msg%n</Pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <logger name="cn.com.essence.wefa" level="INFO"/>
+    <logger name="cn.com.essence.icbm" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="file" />
+        <appender-ref ref="console" />
+    </root>
+</configuration>

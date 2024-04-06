@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysCalendarEventDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysCalendarEvent">
+    <id column="EVENT_ID" jdbcType="INTEGER" property="eventId" />
+    <result column="FUND_ID" jdbcType="INTEGER" property="fundId" />
+    <result column="EVENT_DATE" jdbcType="CHAR" property="eventDate" />
+    <result column="EVENT_TITLE" jdbcType="VARCHAR" property="eventTitle" />
+    <result column="EVENT_DETAIL" jdbcType="VARCHAR" property="eventDetail" />
+    <result column="EVENT_TYPE" jdbcType="CHAR" property="eventType" />
+    <result column="EVENT_NAME" jdbcType="CHAR" property="eventName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    EVENT_ID, FUND_ID, EVENT_DATE, EVENT_TITLE, EVENT_DETAIL, EVENT_TYPE, EVENT_NAME, 
+    CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_calendar_event
+    where EVENT_ID = #{eventId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_calendar_event
+    where EVENT_ID = #{eventId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="EVENT_ID" keyProperty="eventId" parameterType="cn.com.essence.icbm.sys.bean.po.SysCalendarEvent" useGeneratedKeys="true">
+    insert into sys_calendar_event (FUND_ID, EVENT_DATE, EVENT_TITLE, 
+      EVENT_DETAIL, EVENT_TYPE, EVENT_NAME, 
+      CREATE_TIME)
+    values (#{fundId,jdbcType=INTEGER}, #{eventDate,jdbcType=CHAR}, #{eventTitle,jdbcType=VARCHAR}, 
+      #{eventDetail,jdbcType=VARCHAR}, #{eventType,jdbcType=CHAR}, #{eventName,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="EVENT_ID" keyProperty="eventId" parameterType="cn.com.essence.icbm.sys.bean.po.SysCalendarEvent" useGeneratedKeys="true">
+    insert into sys_calendar_event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fundId != null">
+        FUND_ID,
+      </if>
+      <if test="eventDate != null">
+        EVENT_DATE,
+      </if>
+      <if test="eventTitle != null">
+        EVENT_TITLE,
+      </if>
+      <if test="eventDetail != null">
+        EVENT_DETAIL,
+      </if>
+      <if test="eventType != null">
+        EVENT_TYPE,
+      </if>
+      <if test="eventName != null">
+        EVENT_NAME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fundId != null">
+        #{fundId,jdbcType=INTEGER},
+      </if>
+      <if test="eventDate != null">
+        #{eventDate,jdbcType=CHAR},
+      </if>
+      <if test="eventTitle != null">
+        #{eventTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="eventDetail != null">
+        #{eventDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        #{eventType,jdbcType=CHAR},
+      </if>
+      <if test="eventName != null">
+        #{eventName,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysCalendarEvent">
+    update sys_calendar_event
+    <set>
+      <if test="fundId != null">
+        FUND_ID = #{fundId,jdbcType=INTEGER},
+      </if>
+      <if test="eventDate != null">
+        EVENT_DATE = #{eventDate,jdbcType=CHAR},
+      </if>
+      <if test="eventTitle != null">
+        EVENT_TITLE = #{eventTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="eventDetail != null">
+        EVENT_DETAIL = #{eventDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        EVENT_TYPE = #{eventType,jdbcType=CHAR},
+      </if>
+      <if test="eventName != null">
+        EVENT_NAME = #{eventName,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where EVENT_ID = #{eventId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysCalendarEvent">
+    update sys_calendar_event
+    set FUND_ID = #{fundId,jdbcType=INTEGER},
+      EVENT_DATE = #{eventDate,jdbcType=CHAR},
+      EVENT_TITLE = #{eventTitle,jdbcType=VARCHAR},
+      EVENT_DETAIL = #{eventDetail,jdbcType=VARCHAR},
+      EVENT_TYPE = #{eventType,jdbcType=CHAR},
+      EVENT_NAME = #{eventName,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where EVENT_ID = #{eventId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectEvents" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from sys_calendar_event a
+    <where>
+      <if test="params.fundId != null and params.fundId != ''">
+        and a.FUND_ID = #{params.fundId}
+      </if>
+      <if test="params.eventNames != null and params.eventNames.size > 0">
+        and a.EVENT_NAME in
+        <foreach collection="params.eventNames" item="item" open="(" separator="," close=")">
+            #{item}
+         </foreach>
+      </if>
+      <if test="params.monthDate != null and params.monthDate != ''">
+        and a.EVENT_DATE like CONCAT(#{params.monthDate},'%')
+      </if>
+      <if test="params.date != null and params.monthDate != ''">
+        and a.EVENT_DATE = #{params.monthDate}
+      </if>
+    </where>
+    order by a.EVENT_DATE asc, a.FUND_ID asc
+
+  </select>
+</mapper>

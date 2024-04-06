@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysMessageDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysMessage">
+    <id column="MESSAGE_ID" jdbcType="INTEGER" property="messageId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="IMPORTANCE" jdbcType="CHAR" property="importance" />
+    <result column="MESSAGE_SUBJECT" jdbcType="VARCHAR" property="messageSubject" />
+    <result column="MESSAGE_CONTENT" jdbcType="VARCHAR" property="messageContent" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="IS_DELETED" jdbcType="CHAR" property="isDeleted" />
+    <result column="IS_READ" jdbcType="CHAR" property="isRead" />
+    <result column="IS_TOP" jdbcType="CHAR" property="isTop" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="MessageInfoMap" type="cn.com.essence.icbm.sys.bean.po.MessageInfo">
+    <result column="UNREAD" jdbcType="INTEGER" property="unread" />
+    <result column="LAST_MESSAGE_TIMESTAMP" jdbcType="BIGINT" property="lastMessageTimestamp" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    MESSAGE_ID, USER_ID, IMPORTANCE, MESSAGE_SUBJECT, MESSAGE_CONTENT, CREATE_TIME, IS_DELETED, 
+    IS_READ, IS_TOP, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_message
+    where MESSAGE_ID = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_message
+    where MESSAGE_ID = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="MESSAGE_ID" keyProperty="messageId" parameterType="cn.com.essence.icbm.sys.bean.po.SysMessage" useGeneratedKeys="true">
+    insert into sys_message (USER_ID, IMPORTANCE, MESSAGE_SUBJECT, 
+      MESSAGE_CONTENT, CREATE_TIME, IS_DELETED, 
+      IS_READ, IS_TOP, UPDATE_TIME
+      )
+    values (#{userId,jdbcType=INTEGER}, #{importance,jdbcType=CHAR}, #{messageSubject,jdbcType=VARCHAR}, 
+      #{messageContent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=CHAR}, 
+      #{isRead,jdbcType=CHAR}, #{isTop,jdbcType=CHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="MESSAGE_ID" keyProperty="messageId" parameterType="cn.com.essence.icbm.sys.bean.po.SysMessage" useGeneratedKeys="true">
+    insert into sys_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="importance != null">
+        IMPORTANCE,
+      </if>
+      <if test="messageSubject != null">
+        MESSAGE_SUBJECT,
+      </if>
+      <if test="messageContent != null">
+        MESSAGE_CONTENT,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="isRead != null">
+        IS_READ,
+      </if>
+      <if test="isTop != null">
+        IS_TOP,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="importance != null">
+        #{importance,jdbcType=CHAR},
+      </if>
+      <if test="messageSubject != null">
+        #{messageSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=CHAR},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=CHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysMessage">
+    update sys_message
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="importance != null">
+        IMPORTANCE = #{importance,jdbcType=CHAR},
+      </if>
+      <if test="messageSubject != null">
+        MESSAGE_SUBJECT = #{messageSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="messageContent != null">
+        MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="isRead != null">
+        IS_READ = #{isRead,jdbcType=CHAR},
+      </if>
+      <if test="isTop != null">
+        IS_TOP = #{isTop,jdbcType=CHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where MESSAGE_ID = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysMessage">
+    update sys_message
+    set USER_ID = #{userId,jdbcType=INTEGER},
+      IMPORTANCE = #{importance,jdbcType=CHAR},
+      MESSAGE_SUBJECT = #{messageSubject,jdbcType=VARCHAR},
+      MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      IS_READ = #{isRead,jdbcType=CHAR},
+      IS_TOP = #{isTop,jdbcType=CHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where MESSAGE_ID = #{messageId,jdbcType=INTEGER}
+  </update>
+
+  <select id="findPage" resultMap="BaseResultMap" parameterType="Pager">
+    select
+    <include refid="Base_Column_List" />
+    from sys_message a
+    where  a.USER_ID= #{params.userId,jdbcType=INTEGER} and a.IS_DELETED = '0'
+    <if test="params.subject != null and params.subject != ''">
+      and a.MESSAGE_SUBJECT like "%"#{params.subject}"%"
+    </if>
+    <if test="params.importances != null and params.importances.size() > 0">
+      and IMPORTANCE in
+      <foreach collection="params.importances" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="params.isRead != null and params.isRead != ''">
+      and a.IS_READ = #{params.isRead}
+    </if>
+    <if test="params.startTime != null">
+      and a.CREATE_TIME &gt;= #{params.startTime}
+    </if>
+    <if test="params.endTime != null">
+      and a.CREATE_TIME &lt;= #{params.endTime}
+    </if>
+    order by a.IS_TOP desc, a.IS_READ asc, a.CREATE_TIME desc
+  </select>
+
+  <select id="findPageCount" parameterType="Pager" resultType="int">
+    select count(a.MESSAGE_ID) from sys_message a
+    where  a.USER_ID= #{params.userId,jdbcType=INTEGER} and a.IS_DELETED = '0'
+    <if test="params.subject != null and params.subject != ''">
+        and a.MESSAGE_SUBJECT like "%"#{params.subject}"%"
+    </if>
+    <if test="params.importance != null and params.importance != ''">
+      and a.IMPORTANCE = #{params.importance}
+    </if>
+    <if test="params.isRead != null and params.isRead != ''">
+      and a.IS_READ = #{params.isRead}
+    </if>
+    <if test="params.startTime != null">
+      and a.CREATE_TIME &gt;= #{params.startTime}
+    </if>
+    <if test="params.endTime != null">
+      and a.CREATE_TIME &lt;= #{params.endTime}
+    </if>
+  </select>
+
+  <update id="updateMessageReadStatus">
+    update sys_message a
+    set a.IS_READ = #{isRead},a.UPDATE_TIME = now()
+    where a.USER_ID=#{userId} and a.MESSAGE_ID in
+    <foreach item="item" index="index" collection="messageIds" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <update id="updateMessageDeleteStatus">
+    update sys_message a
+    set a.IS_DELETED = #{isDelete},a.UPDATE_TIME = now()
+    where a.USER_ID=#{userId} and a.MESSAGE_ID in
+    <foreach item="item" index="index" collection="messageIds" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <select id="getUserMessageInfo" parameterType="int" resultMap="MessageInfoMap">
+    SELECT
+        (
+        SELECT
+            COUNT(1)
+        FROM
+            SYS_MESSAGE SM
+        WHERE
+            SM.USER_ID = SU.ID
+            AND SM.IS_DELETED = '0'
+            AND SM.IS_READ = '0') AS UNREAD,
+        UNIX_TIMESTAMP((SELECT GREATEST(MAX(SM.CREATE_TIME),max(sm.UPDATE_TIME)) FROM SYS_MESSAGE SM WHERE SM.USER_ID = SU.ID AND SM.IS_DELETED = '0' )) AS LAST_MESSAGE_TIMESTAMP
+    FROM
+        SYS_USER SU
+    WHERE
+        SU.ID = #{userId}
+  </select>
+
+  <select id="findUserMessageWithTimestamp" resultMap="BaseResultMap">
+    select
+        sm.MESSAGE_ID ,
+        sm.MESSAGE_SUBJECT ,
+        sm.IMPORTANCE ,
+        sm.CREATE_TIME
+    from
+        sys_message sm
+    where
+        sm.USER_ID = #{userId}
+        and sm.IS_DELETED = '0'
+        and sm.CREATE_TIME  > FROM_UNIXTIME(#{timestamp})
+        and sm.IS_READ = '0'
+        <if test="isRead != null and isRead != ''">
+          and sm.IS_READ = #{isRead}
+        </if>
+        order  by sm.CREATE_TIME  desc
+  </select>
+</mapper>

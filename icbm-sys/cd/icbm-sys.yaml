@@ -1,0 +1,104 @@
+# apiVersion 指定通过哪个 api 进行处理
+apiVersion: apps/v1
+# 资源的类型 deployment 发布 pod 实例
+kind: Deployment
+# 元数据
+
+metadata:
+  # 唯一标识
+  name: icbm-sys
+  # 命名空间，不指定默认 default，在流水线中会按照配置替换{{nameSpace}}模板
+  namespace: {{nameSpace}}
+# 规范
+spec:
+  selector:
+    matchLabels:
+      app: icbm-sys
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      # 标签，在 k8s 中通过标签-选择器来完成各种资源的关联
+      labels:
+        app: icbm-sys
+    spec:
+      imagePullSecrets:
+        # 拉取镜像的仓库凭证
+        - name: icbm-habor
+        - name: icbm-af
+      containers:
+        - name: icbm-sys
+          # 镜像名称，在流水线中会按照配置替换{{imageName}}模板
+          image: {{imageName}}
+          ports:
+            # 容器暴露的端口，如 java 项目通常是 8080
+            - containerPort: 8080
+            - containerPort: 9080
+          # 指定数据卷（如无需使用到 skywalking agent，从这到结尾的临时卷定义就删除）
+          volumeMounts:
+            - mountPath: /root/.apm
+              name: vol1
+          env:
+            - name: TZ
+              value: "Asia/Shanghai"
+            - name: SKYWALKING_ENABLED
+              value: "true"
+            - name: SW_SERVICES
+              value: {{swServices}}
+            - name: PROFILES
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: profiles
+      # 初始化容器，因为 pod 内的容器是共享存储和网络环境的，所以选择以这种方式来接入 skywalking agent
+      initContainers:
+        - image: registry.essence.com.cn/galaxy-public/skywalking-agent-sidecar-noenv-release:6.6.0-5
+          name: icbm-sys-sw
+          volumeMounts:
+            # 以临时卷的方式挂载，本质上是把这个目录共享给标准容器
+            - mountPath: /root/.apm
+              name: vol1
+      # 声明一个空的数据卷
+      volumes:
+        - emptyDir: {}
+          name: vol1
+# 使用 --- 分割，相当于多个配置文件合并到一个文件
+---
+apiVersion: v1
+# 提供集群内部服务发现
+kind: Service
+metadata:
+  name: icbm-sys
+  namespace: {{nameSpace}}
+spec:
+  ports:
+    # 服务端口
+    - port: 80
+      # endpoint 端口（容器实例）
+      targetPort: 8080
+  selector:
+    # 通过 selector 查找 匹配的 label
+    app: icbm-sys
+  type: ClusterIP
+
+---
+apiVersion: extensions/v1beta1
+# 提供统一的外部访问入口，如无需提供外部访问可删除该配置
+kind: Ingress
+metadata:
+  name: icbm-sys
+  namespace: {{nameSpace}}
+
+spec:
+  rules:
+    # 集群入口域名 *.k8stest.axzq.com.cn 办公、测试环境均能解析
+    - host: icbm-sys.{{nameSpace}}.k8stest.axzq.com.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: icbm-sys
+              servicePort: 80

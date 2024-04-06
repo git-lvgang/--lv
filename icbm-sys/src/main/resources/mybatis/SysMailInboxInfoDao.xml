@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysMailInboxInfoDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysMailInboxInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="MAIL_UID" jdbcType="VARCHAR" property="mailUid" />
+    <result column="MAIL_RECEIVER" jdbcType="VARCHAR" property="mailReceiver" />
+    <result column="MAIL_SENDER" jdbcType="VARCHAR" property="mailSender" />
+    <result column="MAIL_SUBJECT" jdbcType="VARCHAR" property="mailSubject" />
+    <result column="MAIL_CONTENT" jdbcType="VARCHAR" property="mailContent" />
+    <result column="MAIL_HTML_CONTENT" jdbcType="VARCHAR" property="mailHtmlContent" />
+    <result column="RECEIVER_TIME" jdbcType="TIMESTAMP" property="receiverTime" />
+    <result column="SENT_TIME" jdbcType="TIMESTAMP" property="sentTime" />
+    <result column="ATTACHMENT" jdbcType="OTHER" property="attachment" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, MAIL_UID, MAIL_RECEIVER, MAIL_SENDER, MAIL_SUBJECT, MAIL_CONTENT, MAIL_HTML_CONTENT, 
+    RECEIVER_TIME, SENT_TIME, ATTACHMENT, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_mail_inbox_info
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_mail_inbox_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cn.com.essence.icbm.sys.bean.po.SysMailInboxInfo" useGeneratedKeys="true">
+    insert into sys_mail_inbox_info (MAIL_UID, MAIL_RECEIVER, MAIL_SENDER, 
+      MAIL_SUBJECT, MAIL_CONTENT, MAIL_HTML_CONTENT, 
+      RECEIVER_TIME, SENT_TIME, ATTACHMENT, 
+      CREATE_TIME)
+    values (#{mailUid,jdbcType=VARCHAR}, #{mailReceiver,jdbcType=VARCHAR}, #{mailSender,jdbcType=VARCHAR}, 
+      #{mailSubject,jdbcType=VARCHAR}, #{mailContent,jdbcType=VARCHAR}, #{mailHtmlContent,jdbcType=VARCHAR}, 
+      #{receiverTime,jdbcType=TIMESTAMP}, #{sentTime,jdbcType=TIMESTAMP}, #{attachment,jdbcType=OTHER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cn.com.essence.icbm.sys.bean.po.SysMailInboxInfo" useGeneratedKeys="true">
+    insert into sys_mail_inbox_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mailUid != null">
+        MAIL_UID,
+      </if>
+      <if test="mailReceiver != null">
+        MAIL_RECEIVER,
+      </if>
+      <if test="mailSender != null">
+        MAIL_SENDER,
+      </if>
+      <if test="mailSubject != null">
+        MAIL_SUBJECT,
+      </if>
+      <if test="mailContent != null">
+        MAIL_CONTENT,
+      </if>
+      <if test="mailHtmlContent != null">
+        MAIL_HTML_CONTENT,
+      </if>
+      <if test="receiverTime != null">
+        RECEIVER_TIME,
+      </if>
+      <if test="sentTime != null">
+        SENT_TIME,
+      </if>
+      <if test="attachment != null">
+        ATTACHMENT,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mailUid != null">
+        #{mailUid,jdbcType=VARCHAR},
+      </if>
+      <if test="mailReceiver != null">
+        #{mailReceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="mailSender != null">
+        #{mailSender,jdbcType=VARCHAR},
+      </if>
+      <if test="mailSubject != null">
+        #{mailSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="mailContent != null">
+        #{mailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="mailHtmlContent != null">
+        #{mailHtmlContent,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverTime != null">
+        #{receiverTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sentTime != null">
+        #{sentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=OTHER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysMailInboxInfo">
+    update sys_mail_inbox_info
+    <set>
+      <if test="mailUid != null">
+        MAIL_UID = #{mailUid,jdbcType=VARCHAR},
+      </if>
+      <if test="mailReceiver != null">
+        MAIL_RECEIVER = #{mailReceiver,jdbcType=VARCHAR},
+      </if>
+      <if test="mailSender != null">
+        MAIL_SENDER = #{mailSender,jdbcType=VARCHAR},
+      </if>
+      <if test="mailSubject != null">
+        MAIL_SUBJECT = #{mailSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="mailContent != null">
+        MAIL_CONTENT = #{mailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="mailHtmlContent != null">
+        MAIL_HTML_CONTENT = #{mailHtmlContent,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverTime != null">
+        RECEIVER_TIME = #{receiverTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sentTime != null">
+        SENT_TIME = #{sentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null">
+        ATTACHMENT = #{attachment,jdbcType=OTHER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysMailInboxInfo">
+    update sys_mail_inbox_info
+    set MAIL_UID = #{mailUid,jdbcType=VARCHAR},
+      MAIL_RECEIVER = #{mailReceiver,jdbcType=VARCHAR},
+      MAIL_SENDER = #{mailSender,jdbcType=VARCHAR},
+      MAIL_SUBJECT = #{mailSubject,jdbcType=VARCHAR},
+      MAIL_CONTENT = #{mailContent,jdbcType=VARCHAR},
+      MAIL_HTML_CONTENT = #{mailHtmlContent,jdbcType=VARCHAR},
+      RECEIVER_TIME = #{receiverTime,jdbcType=TIMESTAMP},
+      SENT_TIME = #{sentTime,jdbcType=TIMESTAMP},
+      ATTACHMENT = #{attachment,jdbcType=OTHER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectMails"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_mail_inbox_info
+    where RECEIVER_TIME >= #{startDate} and MAIL_RECEIVER = #{receiver}
+  </select>
+
+  <select id="selectMaxReceiverTime"  resultType="java.util.Date">
+    select MAX(RECEIVER_TIME)
+    from sys_mail_inbox_info where MAIL_RECEIVER = #{receiver}
+  </select>
+
+  <select id="selectMailUids"  resultType="java.lang.String">
+    select MAIL_UID
+    from sys_mail_inbox_info
+    where RECEIVER_TIME >= #{startDate} and MAIL_RECEIVER = #{receiver}
+    <if test="senderMailBoxes != null and senderMailBoxes.size > 0">
+      and MAIL_SENDER in
+      <foreach collection="senderMailBoxes" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+</mapper>

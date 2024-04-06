@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysProcessDataDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysProcessData">
+    <id column="PROCESS_ID" jdbcType="VARCHAR" property="processId" />
+    <result column="FORM_ID" jdbcType="VARCHAR" property="formId" />
+    <result column="FORM_DATA" jdbcType="VARCHAR" property="formData" />
+    <result column="TEMPLATE_ID" jdbcType="VARCHAR" property="templateId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="SUBJECT" jdbcType="VARCHAR" property="subject" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PROCESS_ID, FORM_ID, FORM_DATA, TEMPLATE_ID, USER_ID, CREATE_TIME, SUBJECT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_process_data
+    where PROCESS_ID = #{processId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_process_data
+    where PROCESS_ID = #{processId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessData">
+    insert into sys_process_data (PROCESS_ID, FORM_ID, FORM_DATA, 
+      TEMPLATE_ID, USER_ID, CREATE_TIME, 
+      SUBJECT)
+    values (#{processId,jdbcType=VARCHAR}, #{formId,jdbcType=VARCHAR}, #{formData,jdbcType=VARCHAR}, 
+      #{templateId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{subject,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessData">
+    insert into sys_process_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="processId != null">
+        PROCESS_ID,
+      </if>
+      <if test="formId != null">
+        FORM_ID,
+      </if>
+      <if test="formData != null">
+        FORM_DATA,
+      </if>
+      <if test="templateId != null">
+        TEMPLATE_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="subject != null">
+        SUBJECT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="processId != null">
+        #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="formId != null">
+        #{formId,jdbcType=VARCHAR},
+      </if>
+      <if test="formData != null">
+        #{formData,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessData">
+    update sys_process_data
+    <set>
+      <if test="formId != null">
+        FORM_ID = #{formId,jdbcType=VARCHAR},
+      </if>
+      <if test="formData != null">
+        FORM_DATA = #{formData,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null">
+        TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subject != null">
+        SUBJECT = #{subject,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PROCESS_ID = #{processId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysProcessData">
+    update sys_process_data
+    set FORM_ID = #{formId,jdbcType=VARCHAR},
+      FORM_DATA = #{formData,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      SUBJECT = #{subject,jdbcType=VARCHAR}
+    where PROCESS_ID = #{processId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="countProhibitSecuPollIn" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from irs_securities_pool where secu_intl = #{secuIntl} and CATEGORY_ID=1013
+  </select>
+
+  <select id="getSecuPoolSource" parameterType="java.lang.String" resultType="java.lang.String">
+       select source from irs_securities_pool where secu_intl = #{secuIntl} and CATEGORY_ID=1013
+  </select>
+</mapper>

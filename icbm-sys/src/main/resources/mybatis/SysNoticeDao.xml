@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.essence.icbm.sys.dao.SysNoticeDao">
+  <resultMap id="BaseResultMap" type="cn.com.essence.icbm.sys.bean.po.SysNotice">
+    <id column="NOTICE_ID" jdbcType="INTEGER" property="noticeId" />
+    <result column="NOTICE_TYPE" jdbcType="CHAR" property="noticeType" />
+    <result column="IMPORTANCE" jdbcType="CHAR" property="importance" />
+    <result column="NOTICE_TITLE" jdbcType="VARCHAR" property="noticeTitle" />
+    <result column="NOTICE_CONTENT" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="NOTICE_SUMMARY" jdbcType="VARCHAR" property="noticeSummary" />
+    <result column="NOTICE_APPENDIX" jdbcType="VARCHAR" property="noticeAppendix" />
+    <result column="IS_DELETED" jdbcType="CHAR" property="isDeleted" />
+    <result column="NOTICE_SENDER_ID" jdbcType="INTEGER" property="noticeSenderId" />
+    <result column="PUBLISHED_TIME" jdbcType="TIMESTAMP" property="publishedTime" />
+  </resultMap>
+  <resultMap type="cn.com.essence.icbm.sys.bean.vo.SysUserNoticeVo" id="userNoticeResultMap" extends="BaseResultMap">
+  <result column ="IS_READ" property="isRead"/>
+  <result column ="IS_TOP" property="isTop"/>
+</resultMap>
+  <sql id="Base_Column_List">
+    NOTICE_ID, NOTICE_TYPE, IMPORTANCE, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_SUMMARY, 
+    NOTICE_APPENDIX, IS_DELETED, NOTICE_SENDER_ID, PUBLISHED_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_notice
+    where NOTICE_ID = #{noticeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_notice
+    where NOTICE_ID = #{noticeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="NOTICE_ID" keyProperty="noticeId" parameterType="cn.com.essence.icbm.sys.bean.po.SysNotice" useGeneratedKeys="true">
+    insert into sys_notice (NOTICE_TYPE, IMPORTANCE, NOTICE_TITLE, 
+      NOTICE_CONTENT, NOTICE_SUMMARY, NOTICE_APPENDIX, 
+      IS_DELETED, NOTICE_SENDER_ID, PUBLISHED_TIME
+      )
+    values (#{noticeType,jdbcType=CHAR}, #{importance,jdbcType=CHAR}, #{noticeTitle,jdbcType=VARCHAR}, 
+      #{noticeContent,jdbcType=VARCHAR}, #{noticeSummary,jdbcType=VARCHAR}, #{noticeAppendix,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=CHAR}, #{noticeSenderId,jdbcType=INTEGER}, #{publishedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="NOTICE_ID" keyProperty="noticeId" parameterType="cn.com.essence.icbm.sys.bean.po.SysNotice" useGeneratedKeys="true">
+    insert into sys_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeType != null">
+        NOTICE_TYPE,
+      </if>
+      <if test="importance != null">
+        IMPORTANCE,
+      </if>
+      <if test="noticeTitle != null">
+        NOTICE_TITLE,
+      </if>
+      <if test="noticeContent != null">
+        NOTICE_CONTENT,
+      </if>
+      <if test="noticeSummary != null">
+        NOTICE_SUMMARY,
+      </if>
+      <if test="noticeAppendix != null">
+        NOTICE_APPENDIX,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="noticeSenderId != null">
+        NOTICE_SENDER_ID,
+      </if>
+      <if test="publishedTime != null">
+        PUBLISHED_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeType != null">
+        #{noticeType,jdbcType=CHAR},
+      </if>
+      <if test="importance != null">
+        #{importance,jdbcType=CHAR},
+      </if>
+      <if test="noticeTitle != null">
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeSummary != null">
+        #{noticeSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeAppendix != null">
+        #{noticeAppendix,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="noticeSenderId != null">
+        #{noticeSenderId,jdbcType=INTEGER},
+      </if>
+      <if test="publishedTime != null">
+        #{publishedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.essence.icbm.sys.bean.po.SysNotice">
+    update sys_notice
+    <set>
+      <if test="noticeType != null">
+        NOTICE_TYPE = #{noticeType,jdbcType=CHAR},
+      </if>
+      <if test="importance != null">
+        IMPORTANCE = #{importance,jdbcType=CHAR},
+      </if>
+      <if test="noticeTitle != null">
+        NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        NOTICE_CONTENT = #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeSummary != null">
+        NOTICE_SUMMARY = #{noticeSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeAppendix != null">
+        NOTICE_APPENDIX = #{noticeAppendix,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="noticeSenderId != null">
+        NOTICE_SENDER_ID = #{noticeSenderId,jdbcType=INTEGER},
+      </if>
+      <if test="publishedTime != null">
+        PUBLISHED_TIME = #{publishedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where NOTICE_ID = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.essence.icbm.sys.bean.po.SysNotice">
+    update sys_notice
+    set NOTICE_TYPE = #{noticeType,jdbcType=CHAR},
+      IMPORTANCE = #{importance,jdbcType=CHAR},
+      NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      NOTICE_CONTENT = #{noticeContent,jdbcType=VARCHAR},
+      NOTICE_SUMMARY = #{noticeSummary,jdbcType=VARCHAR},
+      NOTICE_APPENDIX = #{noticeAppendix,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      NOTICE_SENDER_ID = #{noticeSenderId,jdbcType=INTEGER},
+      PUBLISHED_TIME = #{publishedTime,jdbcType=TIMESTAMP}
+    where NOTICE_ID = #{noticeId,jdbcType=INTEGER}
+  </update>
+
+  <select id="findPage" resultMap="userNoticeResultMap" parameterType="Pager">
+    select a.NOTICE_ID, a.NOTICE_TYPE, a.IMPORTANCE, a.NOTICE_TITLE, a.NOTICE_CONTENT,
+    a.NOTICE_SUMMARY, a.NOTICE_APPENDIX, a.NOTICE_SENDER_ID, a.PUBLISHED_TIME,
+    b.IS_READ, b.IS_TOP
+    from sys_notice a left join sys_user_notice_status b on a.NOTICE_ID = b.NOTICE_ID
+    where  b.USER_ID= #{params.userId,jdbcType=INTEGER} and a.IS_DELETED = '0'
+    <if test="params.noticeTitle != null and params.noticeTitle != ''">
+      and a.NOTICE_TITLE like "%"#{params.noticeTitle}"%"
+    </if>
+    <if test="params.importances != null and params.importances.size > 0">
+      and a.IMPORTANCE in
+      <foreach collection="params.importances" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="params.noticeTypes != null and params.noticeTypes.size > 0">
+      and a.NOTICE_TYPE in
+        <foreach collection="params.noticeTypes" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+    </if>
+    <if test="params.isRead != null and params.isRead != ''">
+      and b.IS_READ = #{params.isRead}
+    </if>
+    <if test="params.startTime != null">
+      and a.PUBLISHED_TIME &gt;= #{params.startTime}
+    </if>
+    <if test="params.endTime != null">
+      and a.PUBLISHED_TIME &lt;= #{params.endTime}
+    </if>
+    order by b.IS_TOP desc, b.IS_READ asc, a.PUBLISHED_TIME desc
+
+  </select>
+
+  <select id="findPageCount" parameterType="Pager" resultType="int">
+    select count(a.NOTICE_ID)
+    from sys_notice a left join sys_user_notice_status b on a.NOTICE_ID = b.NOTICE_ID
+    where  b.USER_ID= #{params.userId,jdbcType=INTEGER} and a.IS_DELETED = '0'
+    <if test="params.noticeTitle != null and params.noticeTitle != ''">
+      and a.NOTICE_TITLE like "%"#{params.noticeTitle}"%"
+    </if>
+    <if test="params.importances != null and params.importances.size > 0">
+      and a.IMPORTANCE in
+      <foreach collection="params.importances" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="params.noticeTypes != null and params.noticeTypes.size > 0">
+      and a.NOTICE_TYPE in
+      <foreach collection="params.noticeTypes" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="params.isRead != null and params.isRead != ''">
+      and b.IS_READ = #{params.isRead}
+    </if>
+    <if test="params.startTime != null">
+      and a.PUBLISHED_TIME &gt;= #{params.startTime}
+    </if>
+    <if test="params.endTime != null">
+      and a.PUBLISHED_TIME &lt;= #{params.endTime}
+    </if>
+  </select>
+</mapper>
