@@ -63,5 +63,4 @@ public class BeanUtil {
             e.printStackTrace();
         }
     }
-
 }
